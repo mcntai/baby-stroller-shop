@@ -1,4 +1,4 @@
-const { MongooseValidationError } = require('../errors')
+const { BulkValidationError } = require('../errors')
 
 module.exports = async (ctx, next) => {
   try {
@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
     if (err.name !== 'ValidationError') throw err
 
     ctx.body = {
-      errors: new MongooseValidationError(err.errors),
+      errors: new BulkValidationError(err.errors),
     }
   }
 }

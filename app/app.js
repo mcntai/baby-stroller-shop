@@ -4,19 +4,16 @@ const Koa = require('koa')
 const Router = require('koa-router')
 
 const errorHandler = require('./middlewares/errorHandler')
-const loginUser = require('./middlewares/loginUser')
 const auth = require('./middlewares/auth')
 
-const handleMongooseErrors = require('./controllers/handleMongooseErrors')
+const BulkValidationError = require('./controllers/BulkValidationError')
 const mustBeAuthenticated = require('./controllers/auth/mustBeAuthenticated')
 
 const getRecommendations = require('./controllers/getRecommendations')
 const getCategories = require('./controllers/getCategories')
 
 const getProductById = require('./controllers/products/getProductById')
-const getProductsList = require('./controllers/products/getProductsList')
-const getProductsByQuery = require('./controllers/products/getProductsByQuery')
-const getProductsBySubcategory = require('./controllers/products/getProductsBySubcategory')
+const getProducts = require('./controllers/products/getProducts')
 
 const authenticateUser = require('./controllers/auth/authenticateUser')
 const oauth = require('./controllers/auth/oauth')
@@ -35,7 +32,6 @@ app.use(require('koa-bodyparser')())
 app.use(require('koa-static')(path.join(__dirname, 'public')))
 
 app.use(errorHandler)
-app.use(loginUser)
 
 const router = new Router({ prefix: '/api' })
 
@@ -44,21 +40,21 @@ router.use(auth)
 router.get('/recommendations', getRecommendations)
 router.get('/categories', getCategories)
 
-router.get('/products', getProductsBySubcategory, getProductsByQuery, getProductsList)
+router.get('/products', getProducts)
 router.get('/products/:id', getProductById)
 
 router.post('/login', authenticateUser)
 
 router.get('/oauth/:provider', oauth)
-router.post('/oauth_callback', handleMongooseErrors, authenticateUser)
+router.post('/oauth_callback', BulkValidationError, authenticateUser)
 
 router.get('/me', mustBeAuthenticated, isItMe)
 
-router.post('/register', handleMongooseErrors, registerUser)
+router.post('/register', BulkValidationError, registerUser)
 router.post('/confirm', confirmRegistration)
 
 router.get('/orders', mustBeAuthenticated, getOrdersList)
-router.post('/orders', mustBeAuthenticated, handleMongooseErrors, createOrder)
+router.post('/orders', mustBeAuthenticated, BulkValidationError, createOrder)
 
 router.get('/messages', mustBeAuthenticated, getMessages)
 

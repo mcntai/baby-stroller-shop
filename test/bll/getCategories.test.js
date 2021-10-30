@@ -44,40 +44,44 @@ describe('bll/getCategories', () => {
   })
 
   it('category should have expected shape', () => {
-    const category = response[0]
+    const category = response.categories[0]
 
     const mappedCategory = {
-      id           : category.id,
-      title        : category.title,
-      subcategories: [
-        {
-          id   : category.subcategories[0].id,
-          title: category.subcategories[0].title,
-        },
-        {
-          id   : category.subcategories[1].id,
-          title: category.subcategories[1].title,
-        },
-      ],
+      categories: {
+        id           : category.id,
+        title        : category.title,
+        subcategories: [
+          {
+            id   : category.subcategories[0].id,
+            title: category.subcategories[0].title,
+          },
+          {
+            id   : category.subcategories[1].id,
+            title: category.subcategories[1].title,
+          },
+        ],
+      },
     }
 
-    const c = categories.find(c => c.id === mappedCategory.id)
+    const c = categories.find(c => c.id === mappedCategory.categories.id)
 
     assert(c)
 
     assert.deepEqual(mappedCategory, {
-      id           : c.id,
-      title        : c.title,
-      subcategories: [
-        {
-          id   : c.subcategories[0].id,
-          title: c.subcategories[0].title,
-        },
-        {
-          id   : c.subcategories[1].id,
-          title: c.subcategories[1].title,
-        },
-      ],
+      categories: {
+        id           : c.id,
+        title        : c.title,
+        subcategories: [
+          {
+            id   : c.subcategories[0].id,
+            title: c.subcategories[0].title,
+          },
+          {
+            id   : c.subcategories[1].id,
+            title: c.subcategories[1].title,
+          },
+        ],
+      },
     })
   })
 })

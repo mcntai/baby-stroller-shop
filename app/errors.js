@@ -13,38 +13,24 @@ class InvalidArgumentsError extends ApiError {
 }
 
 class InternalServerError extends ApiError {
-  constructor() {
+  constructor(message) {
     super()
-    this.message = 'Internal server error'
+    this.message = message
     this.status = 500
   }
+
+  static USER_MESSAGE = 'Something went wrong'
 }
 
 class AuthorizationError extends ApiError {
-  constructor() {
+  constructor(message) {
     super()
-    this.message = 'Wrong authentication token'
+    this.message = message
     this.status = 401
   }
 }
 
-class ConfirmRegistrationError extends ApiError {
-  constructor() {
-    super()
-    this.message = 'Confirmation link is either old or invalid'
-    this.status = 400
-  }
-}
-
-class MustBeAuthenticatedError extends ApiError {
-  constructor() {
-    super()
-    this.message = 'User is not logged in'
-    this.status = 401
-  }
-}
-
-class MongooseValidationError extends ApiError {
+class BulkValidationError extends ApiError {
   constructor(errors) {
     super()
     this.errors = {}
@@ -56,12 +42,19 @@ class MongooseValidationError extends ApiError {
   }
 }
 
+class NotFoundError extends ApiError {
+  constructor(message) {
+    super()
+    this.message = message
+    this.status = 404
+  }
+}
+
 module.exports = {
   ApiError,
   InvalidArgumentsError,
   InternalServerError,
   AuthorizationError,
-  ConfirmRegistrationError,
-  MustBeAuthenticatedError,
-  MongooseValidationError,
+  BulkValidationError,
+  NotFoundError,
 }

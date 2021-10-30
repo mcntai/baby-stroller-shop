@@ -1,5 +1,8 @@
-const withoutBearerPrefix = require('../common/withoutBearerPrefix')
 const handleSession = require('../bll/handleSession')
+
+const withoutBearerPrefix = authorizationHeader => {
+  return authorizationHeader.split(' ')[1]
+}
 
 module.exports = async (ctx, next) => {
   const authorizationHeader = ctx.request.get('Authorization')

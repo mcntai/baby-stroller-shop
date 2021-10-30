@@ -1,4 +1,14 @@
 const passport = require('../../libs/passport')
+const Session = require('../../models/Session')
+const uuid = require('uuid/v4')
+
+const loginUser = async user => {
+  const token = uuid()
+
+  await Session.create({ token, user, lastVisit: new Date() })
+
+  return token
+}
 
 module.exports = async (ctx, next) => {
   const provider = ctx.request.body.provider || null
@@ -15,7 +25,7 @@ module.exports = async (ctx, next) => {
       return
     }
 
-    const token = await ctx.login(user)
+    const token = await loginUser(user)
 
     ctx.body = { token }
   })(ctx, next)

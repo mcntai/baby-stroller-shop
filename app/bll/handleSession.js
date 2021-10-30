@@ -5,7 +5,7 @@ module.exports = async token => {
   const session = await Session.findOne({ token }).populate('user')
 
   if (!session) {
-    throw new AuthorizationError()
+    throw new AuthorizationError('Wrong authentication token')
   }
 
   session.lastVisit = new Date()

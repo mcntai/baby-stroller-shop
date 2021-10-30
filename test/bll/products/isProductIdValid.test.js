@@ -1,5 +1,5 @@
 'use strict'
-const isProductIdValid = require('../../../app/bll/products/isProductIdValid')
+const isProductIdValid = require('../../../app/bll/products/isValidObjectId')
 const { createCategory, createProduct } = require('../../helpers/createCategoryAndProduct')
 const { Category, Product } = require('../../../app/models/index')
 

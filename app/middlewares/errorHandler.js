@@ -1,5 +1,5 @@
 const { ValidationError } = require('sito')
-const { InvalidArgumentsError, ApiError, InternalServerError } = require('../errors')
+const { InvalidArgumentsError, ApiError, InternalServerError, BulkValidationError } = require('../errors')
 
 module.exports = async (ctx, next) => {
   try {
@@ -10,8 +10,13 @@ module.exports = async (ctx, next) => {
     }
 
     if (!(err instanceof ApiError)) {
-      console.error(err)
-      err = new InternalServerError()
+      err = new InternalServerError('[UNHANDLED ERROR] ' + err.stack)
+    }
+
+    console.error(`${err.name}: ${err.message}`)
+
+    if (err instanceof InternalServerError) {
+      err.message = InternalServerError.USER_MESSAGE
     }
 
     ctx.status = err.status

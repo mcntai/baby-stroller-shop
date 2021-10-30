@@ -1,7 +1,5 @@
 const getMessages = require('../bll/getMessages')
 
 module.exports = async ctx => {
-  const messages = await getMessages(ctx.user.displayName)
-
-  ctx.body = { messages }
+  ctx.body = await getMessages(ctx.user.displayName)
 }

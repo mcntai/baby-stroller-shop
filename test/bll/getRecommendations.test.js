@@ -33,11 +33,11 @@ describe('bll/getRecommendations', () => {
   })
 
   it('should return 6 products', () => {
-    assert.strictEqual(response.length, 6)
+    assert.strictEqual(response.recommendations.length, 6)
   })
 
   it('product should have expected shape', () => {
-    const mappedProduct = response[0]
+    const mappedProduct = response.recommendations[0]
 
     let product = products.find(p => p.id === mappedProduct.id)
 

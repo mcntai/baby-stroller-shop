@@ -36,11 +36,11 @@ describe('bll/getMessages', () => {
   })
 
   it('should return 20 messages', () => {
-    assert.strictEqual(response.length, 20)
+    assert.strictEqual(response.messages.length, 20)
   })
 
   it('message should have expected shape', () => {
-    const mappedMessage = response[0]
+    const mappedMessage = response.messages[0]
 
     let msg = messages.find(m => m.id === mappedMessage.id.toString())
 

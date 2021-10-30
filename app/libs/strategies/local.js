@@ -8,17 +8,17 @@ module.exports = new LocalStrategy(
       const user = await User.findOne({ email })
 
       if (!user) {
-        return done(null, false, 'Нет такого пользователя')
+        return done(null, false, 'No such user')
       }
 
       const isValidPassword = await user.checkPassword(password)
 
       if (!isValidPassword) {
-        return done(null, false, 'Неверный пароль')
+        return done(null, false, 'Invalid password')
       }
 
       if (user.verificationToken) {
-        return done(null, false, 'Подтвердите email')
+        return done(null, false, 'Confirm your email')
       }
 
       return done(null, user)

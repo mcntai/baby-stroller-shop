@@ -20,7 +20,7 @@ module.exports = async (ctx, next) => {
 
     if (!user) {
       ctx.status = 400
-      ctx.body = { error: info }
+      ctx.body = { error: info.message }
 
       return
     }

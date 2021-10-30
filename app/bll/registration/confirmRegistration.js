@@ -12,7 +12,5 @@ module.exports = async verificationToken => {
   user.verificationToken = undefined
   await user.save()
 
-  const token = uuid()
-
-  return { token }
+  return { token: uuid() }
 }

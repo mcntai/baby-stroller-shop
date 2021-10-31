@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../../models/User')
-const notFoundErrorAssert = require('../../asserts/notFoundAssert')
-const authorizationAssert = require('../../asserts/authorizationAssert')
+const notFoundErrorAssert = require('../../asserts/not-found-assert')
+const authorizationAssert = require('../../asserts/authorization-assert')
 
 module.exports = new LocalStrategy(
   { usernameField: 'email', session: false },

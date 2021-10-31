@@ -3,27 +3,27 @@ const fs = require('fs')
 const Koa = require('koa')
 const Router = require('koa-router')
 
-const errorHandler = require('./middlewares/errorHandler')
+const errorHandler = require('./middlewares/errors-handler')
 const auth = require('./middlewares/auth')
 
-const mustBeAuthenticated = require('./controllers/auth/mustBeAuthenticated')
+const mustBeAuthenticated = require('./controllers/auth/must-be-authenticated')
 
-const getRecommendations = require('./controllers/getRecommendations')
-const getCategories = require('./controllers/getCategories')
+const getRecommendations = require('./controllers/get-recommendations')
+const getCategories = require('./controllers/get-categories')
 
-const getProductById = require('./controllers/products/getProductById')
-const getProducts = require('./controllers/products/getProducts')
+const getProductById = require('./controllers/product/get-product-by-id')
+const getProducts = require('./controllers/product/get-products')
 
-const authenticateUser = require('./controllers/auth/authenticateUser')
+const authenticateUser = require('./controllers/auth/authenticate-user')
 const oauth = require('./controllers/auth/oauth')
-const isItMe = require('./controllers/auth/isItMe')
-const registerUser = require('./controllers/registration/registerUser')
-const confirmRegistration = require('./controllers/registration/confirmRegistration')
+const isItMe = require('./controllers/auth/check-if-its-me')
+const registerUser = require('./controllers/registration/register-user')
+const confirmRegistration = require('./controllers/registration/confirm-registration')
 
-const createOrder = require('./controllers/orders/createOrder')
-const getOrdersList = require('./controllers/orders/getOrdersList')
+const createOrder = require('./controllers/order/create-order')
+const getOrdersList = require('./controllers/order/get-orders-list')
 
-const getMessages = require('./controllers/getMessages')
+const getMessages = require('./controllers/get-messages')
 
 const app = new Koa()
 
@@ -39,8 +39,8 @@ router.use(auth)
 router.get('/recommendations', getRecommendations)
 router.get('/categories', getCategories)
 
-router.get('/products', getProducts)
-router.get('/products/:id', getProductById)
+router.get('/product', getProducts)
+router.get('/product/:id', getProductById)
 
 router.post('/login', authenticateUser)
 
@@ -52,8 +52,8 @@ router.get('/me', mustBeAuthenticated, isItMe)
 router.post('/register', registerUser)
 router.post('/confirm', confirmRegistration)
 
-router.get('/orders', mustBeAuthenticated, getOrdersList)
-router.post('/orders', mustBeAuthenticated, createOrder)
+router.get('/order', mustBeAuthenticated, getOrdersList)
+router.post('/order', mustBeAuthenticated, createOrder)
 
 router.get('/messages', mustBeAuthenticated, getMessages)
 

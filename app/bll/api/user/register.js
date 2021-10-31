@@ -1,7 +1,7 @@
 const { object, string } = require('sito')
 const { User } = require('../../../models/index')
-const { db } = require('../../../errors/validationSchema')
-const registerUser = require('../../registration/registerUser')
+const { db } = require('../../../errors/validation-schema')
+const registerUser = require('../../registration/register-user')
 const REGEX_PATTER = require('../../../utils/regex')
 
 const validationSchema = object({

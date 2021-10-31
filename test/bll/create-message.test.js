@@ -1,5 +1,5 @@
 const createMessage = require('../../app/bll/api/message/create-message')
-const createUser = require('../helpers/createUser')
+const createUser = require('../helpers/create-user')
 const { User } = require('../../app/models/index')
 
 describe('bll/api/message/create-message', () => {

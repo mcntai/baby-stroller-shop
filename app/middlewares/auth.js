@@ -1,4 +1,4 @@
-const handleSession = require('../bll/handleSession')
+const handleSession = require('../bll/user/handle-session')
 
 const withoutBearerPrefix = authorizationHeader => {
   return authorizationHeader.split(' ')[1]

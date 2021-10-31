@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app/index.js",
     "dev": "nodemon app/index.js",
-    "populate": "node app/fixtures/index.js",
+    "populate": "node app/fake-data-for-db/index.js",
     "test": "mocha test --recursive",
     "lint": "eslint --ignore-pattern 'app/public' --ignore-pattern '*.test.js' ."
   },

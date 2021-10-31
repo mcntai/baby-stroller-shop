@@ -1,6 +1,6 @@
 const { object, string } = require('sito')
 const { Message } = require('../../../models/index')
-const { objectId } = require('../../../errors/validationSchema')
+const { objectId } = require('../../../errors/validation-schema')
 
 const validationSchema = object({
   text: string().required(),

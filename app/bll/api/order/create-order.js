@@ -1,6 +1,6 @@
 const { object, string } = require('sito')
-const { objectId } = require('../../../errors/validationSchema')
-const createOrder = require('../../orders/createOrder')
+const { objectId } = require('../../../errors/validation-schema')
+const createOrder = require('../../order/create-order')
 const REGEX_PATTERN = require('../../../utils/regex')
 
 const validationSchema = object({

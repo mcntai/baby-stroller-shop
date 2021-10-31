@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
 })
 
-const generatePassword = (salt, password) => {
+function generatePassword(salt, password) {
   return new Promise((resolve, reject) => {
     crypto.pbkdf2(
       password, salt,
@@ -52,7 +52,7 @@ const generatePassword = (salt, password) => {
   })
 }
 
-const generateSalt = () => {
+function generateSalt() {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(config.crypto.length, (err, buffer) => {
       if (err) return reject(err)
@@ -61,12 +61,12 @@ const generateSalt = () => {
   })
 }
 
-userSchema.methods.setPassword = async password => {
+userSchema.methods.setPassword = async function setPassword(password) {
   this.salt = await generateSalt()
   this.passwordHash = await generatePassword(this.salt, password)
 }
 
-userSchema.methods.checkPassword = async password => {
+userSchema.methods.checkPassword = async function (password) {
   if (!password) return false
 
   const hash = await generatePassword(this.salt, password)

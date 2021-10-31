@@ -12,9 +12,7 @@ const loginUser = async user => {
 }
 
 module.exports = async (ctx, next) => {
-  const provider = ctx.request.body.provider || null
-
-  const strategy = provider ? provider : 'local'
+  const strategy = ctx.params.provider || 'local'
 
   await passport.authenticate(strategy, async (err, user, info) => {
     if (err) throw err

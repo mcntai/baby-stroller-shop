@@ -1,29 +1,27 @@
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../../models/User')
+const notFoundErrorAssert = require('../../asserts/notFoundAssert')
+const authorizationAssert = require('../../asserts/authorizationAssert')
 
 module.exports = new LocalStrategy(
   { usernameField: 'email', session: false },
   async function (email, password, done) {
-    try {
-      const user = await User.findOne({ email })
+    let user
+    let error
 
-      if (!user) {
-        return done(null, false, 'No such user')
-      }
+    try {
+      user = await User.findOne({ email })
+
+      notFoundErrorAssert(user, 'No such user')
 
       const isValidPassword = await user.checkPassword(password)
 
-      if (!isValidPassword) {
-        return done(null, false, 'Invalid password')
-      }
+      authorizationAssert(isValidPassword, 'Invalid password')
 
-      if (user.verificationToken) {
-        return done(null, false, 'Confirm your email')
-      }
-
-      return done(null, user)
+      authorizationAssert(!user.verificationToken, 'Confirm your email')
     } catch (err) {
-      done(err)
+      error = err
     }
+    done(error, user)
   },
 )

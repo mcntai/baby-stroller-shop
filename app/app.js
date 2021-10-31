@@ -45,7 +45,7 @@ router.get('/products/:id', getProductById)
 router.post('/login', authenticateUser)
 
 router.get('/oauth/:provider', oauth)
-router.post('/oauth_callback', authenticateUser)
+router.get('/oauth_callback/:provider', authenticateUser)
 
 router.get('/me', mustBeAuthenticated, isItMe)
 

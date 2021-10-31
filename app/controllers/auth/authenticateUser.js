@@ -1,6 +1,7 @@
 const passport = require('../../libs/passport')
 const Session = require('../../models/Session')
 const uuid = require('uuid/v4')
+const { LoginError } = require('../../errors')
 
 const loginUser = async user => {
   const token = uuid()
@@ -19,10 +20,7 @@ module.exports = async (ctx, next) => {
     if (err) throw err
 
     if (!user) {
-      ctx.status = 400
-      ctx.body = { error: info.message }
-
-      return
+      throw new LoginError({ error: info })
     }
 
     const token = await loginUser(user)

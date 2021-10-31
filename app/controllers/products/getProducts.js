@@ -1,4 +1,4 @@
-const getProducts = require('../../api/getProducts')
+const getProducts = require('../../bll/api/getProducts')
 
 module.exports = async ctx => {
   const products = await getProducts(ctx.query)

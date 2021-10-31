@@ -6,7 +6,6 @@ const Router = require('koa-router')
 const errorHandler = require('./middlewares/errorHandler')
 const auth = require('./middlewares/auth')
 
-const BulkValidationError = require('./controllers/BulkValidationError')
 const mustBeAuthenticated = require('./controllers/auth/mustBeAuthenticated')
 
 const getRecommendations = require('./controllers/getRecommendations')
@@ -46,15 +45,15 @@ router.get('/products/:id', getProductById)
 router.post('/login', authenticateUser)
 
 router.get('/oauth/:provider', oauth)
-router.post('/oauth_callback', BulkValidationError, authenticateUser)
+router.post('/oauth_callback', authenticateUser)
 
 router.get('/me', mustBeAuthenticated, isItMe)
 
-router.post('/register', BulkValidationError, registerUser)
+router.post('/register', registerUser)
 router.post('/confirm', confirmRegistration)
 
 router.get('/orders', mustBeAuthenticated, getOrdersList)
-router.post('/orders', mustBeAuthenticated, BulkValidationError, createOrder)
+router.post('/orders', mustBeAuthenticated, createOrder)
 
 router.get('/messages', mustBeAuthenticated, getMessages)
 

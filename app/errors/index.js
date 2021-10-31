@@ -31,13 +31,13 @@ class AuthorizationError extends ApiError {
 }
 
 class BulkValidationError extends ApiError {
-  constructor(errors) {
+  constructor(err) {
     super()
     this.errors = {}
     this.status = 400
 
-    for (const field of Object.keys(errors)) {
-      this.errors[field] = errors[field].message
+    for (const field of Object.keys(err.errors)) {
+      this.errors[field] = err.errors[field].message
     }
   }
 }
@@ -50,6 +50,14 @@ class NotFoundError extends ApiError {
   }
 }
 
+class LoginError extends ApiError {
+  constructor(message) {
+    super()
+    this.message = message
+    this.status = 400
+  }
+}
+
 module.exports = {
   ApiError,
   InvalidArgumentsError,
@@ -57,4 +65,5 @@ module.exports = {
   AuthorizationError,
   BulkValidationError,
   NotFoundError,
+  LoginError
 }

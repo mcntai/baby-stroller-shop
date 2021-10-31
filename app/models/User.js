@@ -2,56 +2,57 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 const connection = require('../libs/connection')
 const config = require('../config')
+const REGEX_PATTERN = require('../utils/regex')
 
 const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: 'E-mail пользователя не должен быть пустым.',
+  email            : {
+    type    : String,
+    required: 'Email should not be empty',
     validate: [
       {
         validator(value) {
-          return /^[-.\w]+@([\w-]+\.)+[\w-]{2,12}$/.test(value)
+          return REGEX_PATTERN.EMAIL.test(value)
         },
-        message: 'Некорректный email.',
+        message: 'Invalid email',
       },
     ],
-    unique: 'Такой email уже существует',
+    unique  : 'Such email already exists',
   },
-  displayName: {
-    type: String,
-    required: 'У пользователя должно быть имя',
-    unique: 'Такое имя уже существует',
+  displayName      : {
+    type    : String,
+    required: 'User should have displayName',
+    unique  : 'Such displayName already exists',
   },
   verificationToken: {
-    type: String,
+    type : String,
     index: true,
   },
-  passwordHash: {
+  passwordHash     : {
     type: String,
   },
-  salt: {
+  salt             : {
     type: String,
   },
 }, {
   timestamps: true,
 })
 
-function generatePassword(salt, password) {
+const generatePassword = (salt, password) => {
   return new Promise((resolve, reject) => {
     crypto.pbkdf2(
-        password, salt,
-        config.crypto.iterations,
-        config.crypto.length,
-        config.crypto.digest,
-        (err, key) => {
-          if (err) return reject(err)
-          resolve(key.toString('hex'))
-        },
+      password, salt,
+      config.crypto.iterations,
+      config.crypto.length,
+      config.crypto.digest,
+      (err, key) => {
+        if (err) return reject(err)
+        resolve(key.toString('hex'))
+      },
     )
   })
 }
 
-function generateSalt() {
+const generateSalt = () => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(config.crypto.length, (err, buffer) => {
       if (err) return reject(err)
@@ -60,12 +61,12 @@ function generateSalt() {
   })
 }
 
-userSchema.methods.setPassword = async function setPassword(password) {
+userSchema.methods.setPassword = async password => {
   this.salt = await generateSalt()
   this.passwordHash = await generatePassword(this.salt, password)
 }
 
-userSchema.methods.checkPassword = async function(password) {
+userSchema.methods.checkPassword = async password => {
   if (!password) return false
 
   const hash = await generatePassword(this.salt, password)

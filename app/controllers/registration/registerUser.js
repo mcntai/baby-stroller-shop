@@ -1,4 +1,4 @@
-const registerUser = require('../../bll/registration/registerUser')
+const registerUser = require('../../bll/api/user/register')
 
 module.exports = async ctx => {
   const { email, displayName, password } = ctx.request.body

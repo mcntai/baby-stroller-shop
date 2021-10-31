@@ -1,4 +1,4 @@
-const createOrder = require('../../bll/orders/createOrder')
+const createOrder = require('../../bll/api/order/create-order')
 
 module.exports = async ctx => {
   const { product, phone, address } = ctx.request.body

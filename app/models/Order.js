@@ -1,31 +1,32 @@
 const mongoose = require('mongoose')
 const connection = require('../libs/connection')
+const REGEX_PATTERN = require('../utils/regex')
 
 const orderSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
+  user   : {
+    type    : mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'User',
+    ref     : 'User',
   },
   product: {
-    type: mongoose.Schema.Types.ObjectId,
+    type    : mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'Product',
+    ref     : 'Product',
   },
-  phone: {
-    type: String,
+  phone  : {
+    type    : String,
     required: true,
     validate: [
       {
         validator(value) {
-          return /\+?\d{6,14}/.test(value)
+          return REGEX_PATTERN.PHONE.test(value)
         },
-        message: 'Неверный формат номера телефона.',
+        message: 'Invalid phone number format',
       },
     ],
   },
   address: {
-    type: String,
+    type    : String,
     required: true,
   },
 })

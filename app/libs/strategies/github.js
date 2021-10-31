@@ -1,4 +1,4 @@
-const GithubStrategy = require('passport-github').Strategy
+const GithubStrategy = require('passport-github2').Strategy
 const config = require('../../config')
 const get = require('lodash/get')
 const authenticate = require('./authenticate')

@@ -1,4 +1,5 @@
 const User = require('../../models/User')
+const { BulkValidationError } = require('../../errors')
 
 module.exports = async function authenticate(strategy, email, displayName, done) {
   if (!email) {
@@ -16,9 +17,11 @@ module.exports = async function authenticate(strategy, email, displayName, done)
       email, displayName,
     })
 
-    done(null, user)
+    return done(null, user)
   } catch (err) {
-    done(err)
+    err = new BulkValidationError(err)
+
+    return done(err)
   }
 }
 

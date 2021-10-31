@@ -1,11 +1,11 @@
-const { ValidationError } = require('sito')
-const { InvalidArgumentsError, ApiError, InternalServerError, BulkValidationError } = require('../errors')
+const { GenericValidationError } = require('sito')
+const { InvalidArgumentsError, ApiError, InternalServerError } = require('../errors')
 
 module.exports = async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    if (err instanceof ValidationError) {
+    if (err instanceof GenericValidationError) {
       err = new InvalidArgumentsError(err.message)
     }
 
@@ -20,6 +20,6 @@ module.exports = async (ctx, next) => {
     }
 
     ctx.status = err.status
-    ctx.body = err.message
+    ctx.body = err
   }
 }

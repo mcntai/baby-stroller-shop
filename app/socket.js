@@ -1,7 +1,8 @@
 const socketIO = require('socket.io')
 const { Session, Message } = require('./models/index')
+const createMessage = require('./bll/api/message/create-message')
 
-function socket(server) {
+const socket = server => {
   const io = socketIO(server)
 
   io.use(async function (socket, next) {
@@ -19,13 +20,8 @@ function socket(server) {
   })
 
   io.on('connection', function (socket) {
-    socket.on('message', async msg => {
-      await Message.create({
-        date: new Date(),
-        text: msg,
-        chat: socket.user._id,
-        user: socket.user.displayName,
-      })
+    socket.on('message', async text => {
+      await createMessage(text, socket.user._id, socket.user.displayName)
     })
   })
 

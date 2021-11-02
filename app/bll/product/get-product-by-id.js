@@ -1,6 +1,5 @@
 const Product = require('../../models/Product')
-const argumentsAssert = require('../../asserts/arguments-assert')
-const notFoundAssert = require('../../asserts/not-found-assert')
+const { argumentsAssert, notFoundAssert } = require('../../errors/asserts')
 const mapProduct = require('../../mappers/product')
 const isValidObjectId = require('./is-valid-object-id')
 
